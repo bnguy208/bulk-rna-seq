@@ -1,81 +1,45 @@
-# RNA-seq Analysis Pipeline with Nextflow
+# Bulk RNA-seq Analysis Pipeline
 
-This repository contains an RNA-seq analysis pipeline built with [Nextflow](https://www.nextflow.io/) and designed for reproducibility, scalability, and flexibility across different computational environments.
+A step-by-step analysis pipeline for RNA-seq data from the [Talbot Lab](https://www.jhimmylab.org/).
+
+We used the [nf-core RNA-seq pipeline](https://nf-co.re/rnaseq/3.17.0/) to process our reads and obtain our counts. Below, we outline the major steps in the analysis pipeline. To get a more detailed explanation of the pre-processing steps, please refer to the nf-core website provided.
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Pipeline Overview](#pipeline-overview)
-- [Usage](#usage)
-- [Input Files](#input-files)
-- [Output Files](#output-files)
-- [Customization](#customization)
-- [Contributing](#contributing)
+- [Inputs](#inputs)
+- [Quality Control](#quality-control)
+- [Removal of Ribosomal RNA](#removal-of-ribosomal-rna)
+- [Alignment](#alignment)
+- [Quantification](#quantification)
+- [Outputs](#outputs)
+- [Filtering Reads](#filtering-reads)
+- [Normalization](#normalization)
+- [Differential Expression Analysis](#differential-expression-analysis)
 
 ## Introduction
+This pipeline uses a Nextflow pipeline to process RNA-seq data, align reads to a reference genome and perform quantification, quality control for downstream differential expression analysis. The pipeline is fully customizable, allowing users to adjust the parameters to suit their experimental design.
+![nf-core-rnaseq_metro_map_grey_animated](https://github.com/user-attachments/assets/2dc01173-eecb-4c69-b6a4-ca1a24981191)
 
-This pipeline processes RNA-seq data, aligning reads to a reference genome and performing quantification, quality control, and differential expression analysis. The pipeline is fully customizable, allowing users to adjust the parameters to suit their experimental design.
+To run this Nextflow pipeline, both a configuration file and a shell script are required. 
 
-## Requirements
+The configuration file defines the parameters and environment settings for the pipeline, such as resource allocation (memory, CPUs, and queue settings for each process), execution profiles (defines different configurations for local, cluster, or cloud-based execution), and parameters (sets reference genome paths, file paths, and output directories). By separating these from the core pipeline logic, the configuration file allows for flexibility and reusability. You can change how the pipeline runs in different environments (e.g., HPC vs. local execution) without altering the main pipeline script. 
 
-- **Nextflow** >= 21.04.0
-- **Docker** or **Singularity** for containerized execution
-- **Java** >= 8
-- Reference genome and GTF/GFF annotation file
-- RNA-seq raw data in FASTQ format
+The shell script is the core pipeline code and contains process definitions (steps of pipeline, inputs, outputs), workflow logic (order in which processes run and how data flows between them, enabling management of job dependencies), and execution of commands (each process in this script specifies the shell commands such as fastqc, hisat2, and featureCounts that need to be executed). In summary, the shell script acts as the workflow controller—it contains the main logic and controls how the different components are executed in sequence or in parallel, whereas the config file tunes the pipeline for the particular resources and parameters you need.
 
-The pipeline is compatible with different computing environments, including local machines, high-performance computing clusters (SLURM, PBS), and cloud infrastructures.
+## Inputs
 
-## Installation
+## Quality Control 
 
-To install Nextflow, follow these steps:
+## Removal of Ribosomal RNA
 
-1. **Download and Install Nextflow**:
-   ```bash
-   curl -s https://get.nextflow.io | bash
-   mv nextflow ~/bin/
+## Alignment
 
-2. **Install Docker (if using Docker for containerized execution)**:
-   Follow the instructions on Docker installation.
+## Quantification
 
-3. **Install Singularity (if using Singularity containers)**:
-   Follow the instructions on Singularity installation.
+## Outputs
 
-## Pipeline Overview
+## Filtering Reads 
 
-This RNA-seq analysis pipeline performs the following steps:
+## Normalization
 
-1. **Quality Control**:
-   - Performs quality checks on the raw RNA-seq reads using tools like `FastQC`.
-   - Provides visual summaries of the read quality and highlights potential issues such as adapter content, overrepresented sequences, and low base quality.
-
-2. **Trimming**:
-   - Removes adapter sequences and trims low-quality bases from the RNA-seq reads using tools like `Trim Galore` or `cutadapt`.
-   - Ensures that only high-quality reads proceed to the alignment step.
-
-3. **Read Alignment**:
-   - Aligns the trimmed reads to the reference genome using `STAR` or `HISAT2`.
-   - Generates aligned read files in BAM format, which are used for downstream analysis.
-
-4. **Quantification**:
-   - Quantifies gene expression levels using tools such as `featureCounts` or `Salmon`.
-   - Produces a matrix of gene counts for each sample, which is used for downstream differential expression analysis.
-
-5. **Differential Expression Analysis** (optional):
-   - Compares gene expression levels between different experimental conditions using tools like `DESeq2` or `edgeR`.
-   - Identifies genes that are significantly upregulated or downregulated between conditions.
-
-6. **Visualization & Reporting**:
-   - Generates visual reports for the quality control metrics using `MultiQC`, consolidating the results from FastQC and other tools.
-   - Produces plots and tables summarizing the differential expression results, including heatmaps, volcano plots, and gene expression bar charts.
-
-## Usage
-
-## Input Files
-
-## Output Files
-
-## Customization
-
-## Contributing
+## Differential Expression Analysis
