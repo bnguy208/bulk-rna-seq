@@ -27,6 +27,10 @@ The configuration file defines the parameters and environment settings for the p
 The shell script is the core pipeline code and contains process definitions (steps of pipeline, inputs, outputs), workflow logic (order in which processes run and how data flows between them, enabling management of job dependencies), and execution of commands (each process in this script specifies the shell commands such as fastqc, hisat2, and featureCounts that need to be executed). In summary, the shell script acts as the workflow controller—it contains the main logic and controls how the different components are executed in sequence or in parallel, whereas the config file tunes the pipeline for the particular resources and parameters you need.
 
 ## Inputs
+Prepared samplesheet (csv file) that contains:
+| sample | fastq_1 | fastq_2 | strandedness |
+|--------|---------|---------|--------------|
+| sample id | /path/to/R1.fastq | /path/to/R2.fastq/ | forward, reverse, or auto
 
 ## Quality Control 
 
