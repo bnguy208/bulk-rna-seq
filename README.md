@@ -27,14 +27,22 @@ The configuration file defines the parameters and environment settings for the p
 The shell script is the core pipeline code and contains process definitions (steps of pipeline, inputs, outputs), workflow logic (order in which processes run and how data flows between them, enabling management of job dependencies), and execution of commands (each process in this script specifies the shell commands such as fastqc, hisat2, and featureCounts that need to be executed). In summary, the shell script acts as the workflow controller—it contains the main logic and controls how the different components are executed in sequence or in parallel, whereas the config file tunes the pipeline for the particular resources and parameters you need.
 
 ## Inputs
-Prepared samplesheet (csv file) that contains:
+1. Prepared samplesheet (csv file) that contains:
 | sample | fastq_1 | fastq_2 | strandedness |
 |--------|---------|---------|--------------|
 | sample id | /path/to/R1.fastq | /path/to/R2.fastq/ | forward, reverse, or auto
 
-## Quality Control 
+2. Reference genome (fasta file)
+3. Gene annotation (gtf file)
 
-## Removal of Ribosomal RNA
+## Quality Control 
+Quality control in a crucial step for ensuring the reliability and accuracy of the data before moving into downstream analyses. Performing quality control allows potential issues in the data to be caught early on. 
+
+[FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a quality control tool that generates reports for each FastQ file. It provides an overview of the quality of reads in FastQ files and highlights potential issues. The reports contain basic statistics, per base quality socres, per sequence quality scores, per base sequence content, per sequence GC content, per base N content, sequence length distribution, sequence duplication levels, overrepresented sequences, and adapter content. 
+
+[Trim Galore!](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) is the default tool used to perform quality and adapter trimming on FastQ files. Upon trimming, FastQC is ran again to evaluate improvements in the quality of reads.
+
+[SortMeRNA](https://github.com/sortmerna/sortmerna) is a tool designed to filter ribosomal RNA (rRNA) reads from RNA-seq data, allowing users to focus on the non-rRNA portion of the data, which typically contains the desired mRNA, lncRNA, and other non-coding RNAs. 
 
 ## Alignment
 
