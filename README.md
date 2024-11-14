@@ -8,7 +8,6 @@ We used the [nf-core RNA-seq pipeline](https://nf-co.re/rnaseq/3.17.0/) to proce
 - [Introduction](#introduction)
 - [Inputs](#inputs)
 - [Quality Control](#quality-control)
-- [Removal of Ribosomal RNA](#removal-of-ribosomal-rna)
 - [Alignment](#alignment)
 - [Quantification](#quantification)
 - [Outputs](#outputs)
@@ -27,13 +26,13 @@ The configuration file defines the parameters and environment settings for the p
 The shell script is the core pipeline code and contains process definitions (steps of pipeline, inputs, outputs), workflow logic (order in which processes run and how data flows between them, enabling management of job dependencies), and execution of commands (each process in this script specifies the shell commands such as fastqc, hisat2, and featureCounts that need to be executed). In summary, the shell script acts as the workflow controller—it contains the main logic and controls how the different components are executed in sequence or in parallel, whereas the config file tunes the pipeline for the particular resources and parameters you need.
 
 ## Inputs
-1. Prepared samplesheet (csv file) that contains:
+(1) Prepared samplesheet (csv file) that contains:
 | sample | fastq_1 | fastq_2 | strandedness |
 |--------|---------|---------|--------------|
 | sample id | /path/to/R1.fastq | /path/to/R2.fastq/ | forward, reverse, or auto
 
-2. Reference genome (fasta file)
-3. Gene annotation (gtf file)
+(2) Reference genome (fasta file)  
+(3) Gene annotation (gtf file)
 
 ## Quality Control 
 Quality control in a crucial step for ensuring the reliability and accuracy of the data before moving into downstream analyses. Performing quality control allows potential issues in the data to be caught early on. 
@@ -45,10 +44,25 @@ Quality control in a crucial step for ensuring the reliability and accuracy of t
 [SortMeRNA](https://github.com/sortmerna/sortmerna) is a tool designed to filter ribosomal RNA (rRNA) reads from RNA-seq data, allowing users to focus on the non-rRNA portion of the data, which typically contains the desired mRNA, lncRNA, and other non-coding RNAs. 
 
 ## Alignment
+The alignment step is where sequenced reads are mapped to a reference genome, helping to determine the origin of each read and quantify gene expression. 
+
+[STAR](https://github.com/alexdobin/STAR) is the default tool that is used to align RNA-seq reads to a reference genome. Other tools include HISAT2 and Bowtie2. During alignment, ambiguously aligned reads may be filtered out, ensuring that only high-confidence alignments contribute to downstream analysis. Post-alignment metrics are generated to evaluate the quality of mapping.
+
+The alignments are saved in SAM or BAM format, which includes information about each read's alignment position, strand orientation, and any mismatches or gaps. 
 
 ## Quantification
+The process of quantification includes counting the number of reads that align to each gene. This step provides the basis for comparing gene expression levels across samples.
+
+[Salmon](https://combine-lab.github.io/salmon/) is the default tool that is called to perform quantification. It uses quasi-mapping with two-phase inference to quickly output accurate expression estimates as raw counts or transcripts per million (TPM) normalized counts.
 
 ## Outputs
+- FastQC Reports
+- MultiQC Summary Report
+- Trimmed Reads
+- Aligned Reads
+- Alignment Quality Metrics
+- Read Counts
+- Log Files
 
 ## Filtering Reads 
 
