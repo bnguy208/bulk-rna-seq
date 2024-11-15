@@ -65,6 +65,7 @@ The process of quantification includes counting the number of reads that align t
 - Log Files
 
 ## Filtering Reads 
+Once gene counts are loaded in, a mean-variance plot is used to filter out genes with low log2 counts and low variance. This removes low-quality or uninformative features based on their statistical properties. For each gene, the mean of counts is calculated across all samples. The variance of counts for the same gene is calculated across samples. These statistical measures are then plotted on a scatter plot, where the x-axis represents the mean log-transformed count values and the y-axis represents the variances of these count values. A filtering threshold is defined based on the pattern on the plot. Genes that do not satisfy the filtering threshold criteria are removed for subsequent downstream analysis.
 
 ## Normalization
 
