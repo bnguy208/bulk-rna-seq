@@ -14,6 +14,7 @@ We used the [nf-core RNA-seq pipeline](https://nf-co.re/rnaseq/3.17.0/) to proce
 - [Filtering Reads](#filtering-reads)
 - [Normalization](#normalization)
 - [Differential Expression Analysis](#differential-expression-analysis)
+- [Gene Ontology Analysis](#gene-ontology-analysis)
 
 ## Introduction
 This pipeline uses a Nextflow pipeline to process RNA-seq data, align reads to a reference genome and perform quantification, quality control for downstream differential expression analysis. The pipeline is fully customizable, allowing users to adjust the parameters to suit their experimental design.
@@ -70,3 +71,5 @@ Once gene counts are loaded in, a mean-variance plot is used to filter out genes
 ## Normalization
 
 ## Differential Expression Analysis
+
+## Gene Ontology Analysis
