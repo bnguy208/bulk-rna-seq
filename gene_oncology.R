@@ -3,9 +3,9 @@ BiocManager::install("clusterProfiler")
 BiocManager::install("AnnotationDbi")
 BiocManager::install("org.Mm.eg.db")  # Mouse database
 
-setwd('/Volumes/homes/TalbotLab/Current_Lab_Members/Brandon_Nguyen/Collaborations/JD005-JD008/JD005')
-
 rm(list = ls())
+
+setwd('/Volumes/homes/TalbotLab/Current_Lab_Members/Brandon_Nguyen/Collaborations/JD005-JD008/JD005')
 
 # Load libraries
 library(clusterProfiler)
@@ -29,13 +29,19 @@ genes_to_test <- unique(genes_to_test$SYMBOL)  # Remove duplicates
 GO_results <- enrichGO(gene = genes_to_test, OrgDb = "org.Mm.eg.db", keyType = "SYMBOL", ont = "BP")
 
 # Convert GO results to a data frame
-as.data.frame(GO_results)
+GO_df <- as.data.frame(GO_results)
+
+# Sort the GO results by Count in descending order
+GO_df <- GO_df %>% arrange(desc(Count))
 
 # Plot bar chart of GO results
-fit <- plot(barplot(GO_results, showCategory = 15) + 
+barplot_data <- GO_results
+barplot_data@result <- GO_df  # Replace the result slot with the sorted data
+
+# Plot bar chart of GO results
+fit <- plot(barplot(barplot_data, showCategory = 15) + 
   theme(axis.text.y = element_text(size = 7)))
 
 png("mouse_fed_all_tissues_GO_out.png", res = 250, width = 1400, height = 1800)
 print(fit)
 dev.off()
-fit
